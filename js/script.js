@@ -1,5 +1,14 @@
 const paginationList = document.querySelector('.link-list');
+const header = document.querySelector('.header');
 const itemsPerPage = 9;
+
+//Create and insert search input
+const searchBar = `<label for="search" class="student-search">
+                     <span>Search by name</span>
+                     <input id="search" placeholder="Search by name...">
+                     <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+                  </label>`;
+header.insertAdjacentHTML('beforeend', searchBar);
 
 /**
  * Displays a specified page of student data on the webpage.
@@ -46,7 +55,7 @@ function addPagination(list){
                      </li>`;
       paginationList.insertAdjacentHTML('beforeend', button);
    }
-   document.querySelector('button').classList.add('active');
+   paginationList.querySelector('button').classList.add('active');
 }
 
 // Event listener for pagination buttons to update active button and display corresponding data
