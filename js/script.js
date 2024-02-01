@@ -106,7 +106,7 @@ paginationList.addEventListener('click', (e) => {
 });
 /**
  * Event listeners for search input and button
- * Anon function calls searchStudents to avoid event from being passed as defualt param
+ * Anon function calls searchStudents(data) to avoid event from being passed as defualt param
  */
 searchBar.addEventListener('keyup', () => searchStudents(data));
 searchButton.addEventListener('click', () => searchStudents(data));
