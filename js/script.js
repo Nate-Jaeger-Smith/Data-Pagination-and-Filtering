@@ -107,3 +107,4 @@ paginationList.addEventListener('click', (e) => {
 
 
 searchBar.addEventListener('keyup', () => searchStudents(data));
+searchButton.addEventListener('click', () => searchStudents(data));
