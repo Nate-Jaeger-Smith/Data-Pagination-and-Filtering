@@ -12,13 +12,14 @@ const searchHTML = `<label for="search" class="student-search">
                   </label>`;
 header.insertAdjacentHTML('beforeend', searchHTML);
 
+//Capture search bar/button to add eventListeners
 const searchBar = header.querySelector('#search');
 const searchButton = header.querySelector('button');
 
 /**
  * Displays a specified page of student data on the webpage.
  * Paginates the provided list of students based on the given page number and adds corresponding HTML elements to the DOM.
- * @param {Array} list - The list of student data to be paginated and displayed.
+ * @param {Array} list - The list of student objects to be paginated and displayed.
  * @param {number} page - The page number to be displayed.
  */
 function showPage(list, page) {
@@ -47,7 +48,7 @@ function showPage(list, page) {
 /**
  * Paginates a list of students and adds corresponding buttons to the page.
  * Determines the number of buttons needed based on the length of the list.
- * @param {array} list - The list of students to be paginated.
+ * @param {array} list - The list of student objects to be paginated.
  */
 function addPagination(list){
    const numberOfButtons = Math.ceil(list.length / itemsPerPage);
@@ -62,6 +63,12 @@ function addPagination(list){
    paginationList.querySelector('button').classList.add('active');
 }
 
+/**
+ * Searches for students based on the provided list and updates the UI accordingly.
+ * If matching students are found, displays them on the webpage and adds pagination.
+ * If no students match the search criteria, displays a message indicating no results found.
+ * @param {Array} list - An array containing student objects.
+ */
 function searchStudents (list){
    const foundStudents= [];
    searchedForStudents = [];
@@ -102,9 +109,7 @@ paginationList.addEventListener('click', (e) => {
       target.classList.add('active');
       showPage(data, target.textContent);
    } 
-   //Add else condition to click through pagination buttons of searched students array
 });
-
-
+// Event liseners for search
 searchBar.addEventListener('keyup', () => searchStudents(data));
 searchButton.addEventListener('click', () => searchStudents(data));
