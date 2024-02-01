@@ -45,6 +45,14 @@ function addPagination(list){
    document.querySelector('button').classList.add('active');
 }
 
+paginationList.addEventListener('click', (e) => {
+   const target = e.target;
+   if (target.tagName === 'BUTTON') {
+      paginationList.querySelector('.active').classList.remove('active');
+      target.classList.add('active');
+      showPage(data, target.textContent);
+   }
+});
 
 
 // Call functions
