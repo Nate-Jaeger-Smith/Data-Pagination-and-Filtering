@@ -1,14 +1,15 @@
+const studentList = document.querySelector('.student-list');
 const paginationList = document.querySelector('.link-list');
 const header = document.querySelector('.header');
 const itemsPerPage = 9;
 
 //Create and insert search input
-const searchBar = `<label for="search" class="student-search">
+const searchHTML = `<label for="search" class="student-search">
                      <span>Search by name</span>
                      <input id="search" placeholder="Search by name...">
                      <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
                   </label>`;
-header.insertAdjacentHTML('beforeend', searchBar);
+header.insertAdjacentHTML('beforeend', searchHTML);
 
 /**
  * Displays a specified page of student data on the webpage.
@@ -19,7 +20,6 @@ header.insertAdjacentHTML('beforeend', searchBar);
 function showPage(list, page) {
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = page * itemsPerPage;
-   const studentList = document.querySelector('.student-list');
    studentList.innerHTML = "";
 
    for (let i = 0; i < list.length; i++) {
@@ -71,3 +71,28 @@ paginationList.addEventListener('click', (e) => {
 // Call functions
 showPage(data, 1);
 addPagination(data);
+
+
+const searchBar = header.querySelector('#search');
+const searchButton = header.querySelector('button');
+searchBar.addEventListener('keyup', () => searchStudents(data));
+
+function searchStudents (list){
+   const foundStudents= [];
+   for (let i = 0; i < list.length; i++) {
+      const student = list[i];
+      const studentName = `${student.name.first.toLowerCase()} ${student.name.last.toLowerCase()}`;
+      const searchValue = searchBar.value.toLowerCase();
+
+      if (studentName.includes(searchValue)) {
+         foundStudents.push(student);
+      }
+   }
+   if (foundStudents.length > 0) {
+      showPage(foundStudents, 1);
+      addPagination(foundStudents);
+   } else {
+      studentList.innerHTML = `<h3>No results found</h3>`;
+      paginationList.innerHTML = "";
+   }
+}
