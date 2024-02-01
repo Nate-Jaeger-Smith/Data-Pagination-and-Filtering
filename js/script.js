@@ -64,30 +64,24 @@ function addPagination(list){
 }
 
 /**
- * Searches for students based on the provided list and updates the UI accordingly.
- * If matching students are found, displays them on the webpage and adds pagination.
+ * Searches for students based on the provided list and updates the DOM accordingly.
+ * If matching students are found, adds them to searchForStudents array, and calls addPagination on new array
  * If no students match the search criteria, displays a message indicating no results found.
  * @param {Array} list - An array containing student objects.
  */
 function searchStudents (list){
-   const foundStudents= [];
    searchedForStudents = [];
-   for (let i = 0; i < list.length; i++) {
-      const student = list[i];
-      const studentName = `${student.name.first.toLowerCase()} ${student.name.last.toLowerCase()}`;
-      const searchValue = searchBar.value.toLowerCase();
+   const searchValue = searchBar.value.toLowerCase();
 
-      if (studentName.includes(searchValue)) {
-         foundStudents.push(student);
-      }
-   }
-   if (foundStudents.length > 0) {
-      searchedForStudents = foundStudents;
-      showPage(foundStudents, 1);
-      addPagination(foundStudents);
-   } else {
+   searchedForStudents = list.filter( student => `${student.name.first} ${student.name.last}`.toLowerCase()
+         .includes(searchValue) );
+   
+   if (searchedForStudents.length === 0) {
       studentList.innerHTML = `<h3>No results found</h3>`;
       paginationList.innerHTML = "";
+   } else {
+      showPage(searchedForStudents, 1);
+      addPagination(searchedForStudents);
    }
 }
 
@@ -95,21 +89,24 @@ function searchStudents (list){
 showPage(data, 1);
 addPagination(data);
 
-
 // Event listener for pagination buttons to update active button and display corresponding data
 paginationList.addEventListener('click', (e) => {
    const target = e.target;
-   if (target.tagName === 'BUTTON' && searchBar.value !== "") {
+   if (target.tagName === 'BUTTON') {
       paginationList.querySelector('.active').classList.remove('active');
       target.classList.add('active');
-      showPage(searchedForStudents, target.textContent);
+
+      //Checks if pagination is from default or searched array
+      if (searchBar.value !== "") {
+         showPage(searchedForStudents, target.textContent);
+      } else {
+         showPage(data, target.textContent);
+      }
    }
-   else if (target.tagName === 'BUTTON') {
-      paginationList.querySelector('.active').classList.remove('active');
-      target.classList.add('active');
-      showPage(data, target.textContent);
-   } 
 });
-// Event liseners for search
+/**
+ * Event listeners for search input and button
+ * Anon function calls searchStudents to avoid event from being passed as defualt param
+ */
 searchBar.addEventListener('keyup', () => searchStudents(data));
 searchButton.addEventListener('click', () => searchStudents(data));
