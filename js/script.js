@@ -2,6 +2,7 @@ const studentList = document.querySelector('.student-list');
 const paginationList = document.querySelector('.link-list');
 const header = document.querySelector('.header');
 const itemsPerPage = 9;
+let searchedForStudents = [];
 
 //Create and insert search input
 const searchHTML = `<label for="search" class="student-search">
@@ -10,6 +11,9 @@ const searchHTML = `<label for="search" class="student-search">
                      <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
                   </label>`;
 header.insertAdjacentHTML('beforeend', searchHTML);
+
+const searchBar = header.querySelector('#search');
+const searchButton = header.querySelector('button');
 
 /**
  * Displays a specified page of student data on the webpage.
@@ -58,27 +62,9 @@ function addPagination(list){
    paginationList.querySelector('button').classList.add('active');
 }
 
-// Event listener for pagination buttons to update active button and display corresponding data
-paginationList.addEventListener('click', (e) => {
-   const target = e.target;
-   if (target.tagName === 'BUTTON') {
-      paginationList.querySelector('.active').classList.remove('active');
-      target.classList.add('active');
-      showPage(data, target.textContent);
-   }
-});
-
-// Call functions
-showPage(data, 1);
-addPagination(data);
-
-
-const searchBar = header.querySelector('#search');
-const searchButton = header.querySelector('button');
-searchBar.addEventListener('keyup', () => searchStudents(data));
-
 function searchStudents (list){
    const foundStudents= [];
+   searchedForStudents = [];
    for (let i = 0; i < list.length; i++) {
       const student = list[i];
       const studentName = `${student.name.first.toLowerCase()} ${student.name.last.toLowerCase()}`;
@@ -89,6 +75,7 @@ function searchStudents (list){
       }
    }
    if (foundStudents.length > 0) {
+      searchedForStudents = foundStudents;
       showPage(foundStudents, 1);
       addPagination(foundStudents);
    } else {
@@ -96,3 +83,27 @@ function searchStudents (list){
       paginationList.innerHTML = "";
    }
 }
+
+// Call functions
+showPage(data, 1);
+addPagination(data);
+
+
+// Event listener for pagination buttons to update active button and display corresponding data
+paginationList.addEventListener('click', (e) => {
+   const target = e.target;
+   if (target.tagName === 'BUTTON' && searchBar.value !== "") {
+      paginationList.querySelector('.active').classList.remove('active');
+      target.classList.add('active');
+      showPage(searchedForStudents, target.textContent);
+   }
+   else if (target.tagName === 'BUTTON') {
+      paginationList.querySelector('.active').classList.remove('active');
+      target.classList.add('active');
+      showPage(data, target.textContent);
+   } 
+   //Add else condition to click through pagination buttons of searched students array
+});
+
+
+searchBar.addEventListener('keyup', () => searchStudents(data));
