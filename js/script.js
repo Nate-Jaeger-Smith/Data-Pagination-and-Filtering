@@ -46,7 +46,7 @@ function showPage(list, page) {
  * Determines the number of buttons needed based on the length of the list.
  * @param {array} list - The list of student objects to be paginated.
  */
-function addPagination(list){
+function addPagination(list) {
    const numberOfButtons = Math.ceil(list.length / itemsPerPage);
    paginationList.innerHTML = "";
 
@@ -70,12 +70,12 @@ const searchButton = header.querySelector('button');
  * Else calls showPage & addPagination on foundStudents
  * @param {Array} list - An array containing student objects.
  */
-function searchStudents (list){
+function searchStudents(list) {
    const searchValue = searchBar.value.toLowerCase();
 
-   foundStudents = list.filter( student => `${student.name.first} ${student.name.last}`.toLowerCase()
-         .includes(searchValue) );
-   
+   foundStudents = list.filter(student => `${student.name.first} ${student.name.last}`.toLowerCase()
+      .includes(searchValue));
+
    if (foundStudents.length === 0) {
       studentList.innerHTML = `<h3>No results found</h3>`;
       paginationList.innerHTML = "";
