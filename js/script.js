@@ -1,6 +1,12 @@
 const paginationList = document.querySelector('.link-list');
 const itemsPerPage = 9;
 
+/**
+ * Displays a specified page of student data on the webpage.
+ * Paginates the provided list of students based on the given page number and adds corresponding HTML elements to the DOM.
+ * @param {Array} list - The list of student data to be paginated and displayed.
+ * @param {number} page - The page number to be displayed.
+ */
 function showPage (list, page){
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = page * itemsPerPage;
@@ -45,6 +51,7 @@ function addPagination(list){
    document.querySelector('button').classList.add('active');
 }
 
+// Event listener for pagination buttons to update active button and display corresponding data
 paginationList.addEventListener('click', (e) => {
    const target = e.target;
    if (target.tagName === 'BUTTON') {
