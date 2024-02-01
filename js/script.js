@@ -7,31 +7,29 @@ const itemsPerPage = 9;
  * @param {Array} list - The list of student data to be paginated and displayed.
  * @param {number} page - The page number to be displayed.
  */
-function showPage (list, page){
+function showPage(list, page) {
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = page * itemsPerPage;
    const studentList = document.querySelector('.student-list');
    studentList.innerHTML = "";
 
-   for ( let i = 0; i < list.length; i++ ) {
-      let student = list[i];
-      if ( i >= startIndex && i < endIndex ) {
+   for (let i = 0; i < list.length; i++) {
+      if (i >= startIndex && i < endIndex) {
+         const student = list[i];
          const studentCard = `<li class="student-item cf">
-         <div class="student-details">
-           <img class="avatar" src="${student.picture.thumbnail}" alt="Profile Picture">
-           <h3>${student.name.first} ${student.name.last}</h3>
-           <span class="email">${student.email}</span>
-         </div>
-         <div class="joined-details">
-           <span class="date">Joined ${student.registered.date}</span>
-         </div>
-       </li>`;
-
-       studentList.insertAdjacentHTML('beforeend', studentCard);
+            <div class="student-details">
+               <img class="avatar" src="${student.picture.thumbnail}" alt="Profile Picture">
+               <h3>${student.name.first} ${student.name.last}</h3>
+               <span class="email">${student.email}</span>
+            </div>
+            <div class="joined-details">
+               <span class="date">Joined ${student.registered.date}</span>
+            </div>
+         </li>`;
+         studentList.insertAdjacentHTML('beforeend', studentCard);
       }
    }
 }
-
 
 /**
  * Paginates a list of students and adds corresponding buttons to the page.
@@ -60,7 +58,6 @@ paginationList.addEventListener('click', (e) => {
       showPage(data, target.textContent);
    }
 });
-
 
 // Call functions
 showPage(data, 1);
