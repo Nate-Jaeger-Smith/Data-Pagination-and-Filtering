@@ -2,7 +2,7 @@ const studentList = document.querySelector('.student-list');
 const paginationList = document.querySelector('.link-list');
 const header = document.querySelector('.header');
 const itemsPerPage = 9;
-let searchedForStudents = [];
+let foundStudents = [];
 
 //Create and insert search input
 const searchHTML = `<label for="search" class="student-search">
@@ -11,10 +11,6 @@ const searchHTML = `<label for="search" class="student-search">
                      <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
                   </label>`;
 header.insertAdjacentHTML('beforeend', searchHTML);
-
-//Capture search bar/button to add eventListeners
-const searchBar = header.querySelector('#search');
-const searchButton = header.querySelector('button');
 
 /**
  * Displays a specified page of student data on the webpage.
@@ -63,25 +59,29 @@ function addPagination(list){
    paginationList.querySelector('button').classList.add('active');
 }
 
+//Capture search elements to add eventListeners & determine input value
+const searchBar = header.querySelector('#search');
+const searchButton = header.querySelector('button');
+
 /**
- * Searches for students based on the provided list and updates the DOM accordingly.
- * If matching students are found, adds them to searchForStudents array, and calls addPagination on new array
+ * Searches for students based on the provided list array and updates the DOM accordingly.
+ * Filters list and assigns included search values to foundStudents array
  * If no students match the search criteria, displays a message indicating no results found.
+ * Else calls showPage & addPagination on foundStudents
  * @param {Array} list - An array containing student objects.
  */
 function searchStudents (list){
-   searchedForStudents = [];
    const searchValue = searchBar.value.toLowerCase();
 
-   searchedForStudents = list.filter( student => `${student.name.first} ${student.name.last}`.toLowerCase()
+   foundStudents = list.filter( student => `${student.name.first} ${student.name.last}`.toLowerCase()
          .includes(searchValue) );
    
-   if (searchedForStudents.length === 0) {
+   if (foundStudents.length === 0) {
       studentList.innerHTML = `<h3>No results found</h3>`;
       paginationList.innerHTML = "";
    } else {
-      showPage(searchedForStudents, 1);
-      addPagination(searchedForStudents);
+      showPage(foundStudents, 1);
+      addPagination(foundStudents);
    }
 }
 
@@ -98,7 +98,7 @@ paginationList.addEventListener('click', (e) => {
 
       //Checks if pagination is from default or searched array
       if (searchBar.value !== "") {
-         showPage(searchedForStudents, target.textContent);
+         showPage(foundStudents, target.textContent);
       } else {
          showPage(data, target.textContent);
       }
