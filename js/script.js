@@ -52,7 +52,7 @@ function addPagination(list) {
 
    for (let i = 1; i <= numberOfButtons; i++) {
       const button = `<li>
-                     <button type="button">${i}</button>
+                        <button type="button">${i}</button>
                      </li>`;
       paginationList.insertAdjacentHTML('beforeend', button);
    }
